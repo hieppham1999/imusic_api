@@ -7,7 +7,7 @@ services:
     restart: unless-stopped
     volumes:
         - .:/var/www/imusic_api
-
+        
   #Nginx Service
   nginx:
     image: nginx:1.19-alpine

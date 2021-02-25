@@ -9,6 +9,4 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Copy existing application directory
 COPY . .
 
-RUN composer install
-
-RUN chgrp -R www-data storage
+RUN chgrp -R www-data storage 
