@@ -19,7 +19,8 @@ services:
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
   #DB
   db:
-    image: mariadb:10.5.8
+    image: mariadb:10.5.9
+    container_name: db
     environment: 
       MYSQL_ROOT_PASSWORD: "1"
       MYSQL_DATABASE: "imusic"
