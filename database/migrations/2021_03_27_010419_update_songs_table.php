@@ -14,8 +14,8 @@ class UpdateSongsTable extends Migration
     public function up()
     {
         Schema::table('songs', function (Blueprint $table) {
-            $table->foreign('artist_id')->reference('artist_id')->on('artist')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreign('composer_id')->reference('composer_id')->on('composer')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('artist_id')->references('artist_id')->on('artists')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreign('composer_id')->references('composer_id')->on('composers')->onUpdate('cascade')->onDelete('cascade');
             //
         });
     }
@@ -28,7 +28,8 @@ class UpdateSongsTable extends Migration
     public function down()
     {
         Schema::table('songs', function (Blueprint $table) {
-            $table->dropForeign(['artist_id', 'composer_id']);
+            $table->dropForeign(['artist_id']);
+            $table->dropForeign(['composer_id']);
             //
         });
     }
