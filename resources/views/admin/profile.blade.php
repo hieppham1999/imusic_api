@@ -7,6 +7,9 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Welcome to iMusic!!</h1>
+    <h1>Profile Page</h1>
+    <h2>Hello, {{ $LoggedUserInfo->name }}</h2>
+
+    <a href="/logout">Logout</a>
 </body>
 </html>
