@@ -41,9 +41,6 @@ class UserAuthController extends Controller
     }
 
     function profile() {
-
-        Log::info(Storage::url('/app/public/media/songs/mp3/1 Phut - Andiez.mp3'));
-
         if (session()->has('LoggedUser')) {
             $user = User::where('user_id', '=', session('LoggedUser'))->first();
             $data = [
