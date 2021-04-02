@@ -23,7 +23,7 @@ class CreateSongsTable extends Migration
             $table->dateTime('release_date')->nullable();
             $table->unsignedBigInteger('composer_id')->nullable();
             $table->unsignedBigInteger('language_id')->nullable();
-            $table->unsignedBigInteger('genry_id')->nullable();
+            $table->unsignedBigInteger('genre_id')->nullable();
             $table->timestamps();
 
  
