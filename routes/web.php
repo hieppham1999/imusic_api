@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserAuthController;
-
+use App\Http\Controllers\SongController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,6 +30,9 @@ Route::get('/login', function () {
 });
 
 Route::get('profile', [UserAuthController::class, 'profile']);
+
+Route::get('file_upload', [SongController::class, 'showUploadPage']);
+Route::post('upload', [SongController::class, 'upload'])->name('song.upload');
 
 Route::get('/logout', function () {
     if (session()->has('user'))

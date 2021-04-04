@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
+
 class UserAuthController extends Controller
 {
     //
@@ -41,6 +42,8 @@ class UserAuthController extends Controller
     }
 
     function profile() {
+        $url = Storage::url('media/songs/1Phut.mp3');
+        Log::info($url);
         if (session()->has('LoggedUser')) {
             $user = User::where('user_id', '=', session('LoggedUser'))->first();
             $data = [
