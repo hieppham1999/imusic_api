@@ -9,7 +9,6 @@ RUN apk update && \
     apk add --update --no-cache autoconf tzdata mysql-client && \
     docker-php-ext-install pdo_mysql mysqli && \
     docker-php-ext-enable mysqli && \
-    mkdir -p /var/www/imusic_api/storage/app/public/media/songs &&\
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 
