@@ -14,29 +14,28 @@
     <form action="{{ route('song.upload') }}" method="post" enctype="multipart/form-data">
     @csrf
         <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">Song name</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="">
+            <label for="exampleFormControlInput1" class="form-label">Title</label>
+            <input type="text" class="form-control" name="title" id="exampleFormControlInput1" placeholder="">
         </div>
-        <input class="form-control" type="text" placeholder="Readonly input here..." aria-label="readonly input example" readonly>
         <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">Artist</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="">
+            <input type="text" class="form-control" name="aritst_name" id="exampleFormControlInput1" placeholder="">
         </div>
         <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">Album</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="">
+            <input type="text" class="form-control" name="album" id="exampleFormControlInput1" placeholder="">
         </div>
         <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">Release Date</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="">
+            <input type="text" class="form-control" name="release_date" id="exampleFormControlInput1" placeholder="">
         </div>
         <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">Language</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="">
+            <input type="text" class="form-control" name="language" id="exampleFormControlInput1" placeholder="">
         </div>
         <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">Genre</label>
-            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="">
+            <input type="text" class="form-control" name="genre" id="exampleFormControlInput1" placeholder="">
         </div>
 
         <div class="mb-3">
