@@ -11,13 +11,13 @@ class Song extends Model
     protected $table = 'songs';
     protected $primaryKey = 'song_id';
 
-    protected $fillable = ['song_url', 'title', 'album', 'release_date', 'duration'];
+    protected $fillable = ['song_url', 'title','album_id', 'release_date', 'duration'];
 
     public function artists() {
-        return $this->belongsToMany(Artist::class, 'artirsts_songs', 'song_id', 'artist_id');
+        return $this->belongsToMany(Artist::class, 'artists_songs', 'song_id', 'artist_id');
     }
-    public function albums() {
-        return $this->belongsToMany(Album::class, 'albums_songs', 'song_id', 'album_id');
+    public function album() {
+        return $this->belongsTo(Album::class, 'album_id');
     }
     public function composers() {
         return $this->belongsToMany(Composer::class, 'composers_songs', 'song_id', 'composer_id');

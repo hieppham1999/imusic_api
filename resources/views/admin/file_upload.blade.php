@@ -19,7 +19,7 @@
         </div>
         <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">Artist</label>
-            <input type="text" class="form-control" name="aritst_name" id="exampleFormControlInput1" placeholder="">
+            <input type="text" class="form-control" name="artist_name" id="exampleFormControlInput1" placeholder="">
         </div>
         <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">Album</label>

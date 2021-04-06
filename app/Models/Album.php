@@ -8,10 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Album extends Model
 {
     use HasFactory;
+
+    protected $primaryKey = 'album_id';
+    
+    protected $fillable = ['album_name'];
+
     public function artist(){
         return $this->belongsTo(Artist::class);
     }
     public function songs() {
-        return $this->belongsToMany(Song::class, 'albums_songs', 'album_id', 'song_id');
+        return $this->hasMany(Song::class);
     }
 }

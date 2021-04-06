@@ -9,6 +9,10 @@ class Playlist extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'playlist_id';
+
+    protected $fillable = ['playlist_name'];
+
     public function user()
     {
         return $this->belongsTo(User::class);

@@ -9,6 +9,10 @@ class Language extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'language_id';
+
+    protected $fillable = ['language_name'];
+
     public function songs() {
         return $this->belongsToMany(Song::class, 'languages_songs', 'language_id', 'song_id');
     }

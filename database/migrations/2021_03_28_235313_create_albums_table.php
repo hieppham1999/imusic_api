@@ -15,9 +15,10 @@ class CreateAlbumsTable extends Migration
     {
         Schema::create('albums', function (Blueprint $table) {
             $table->id('album_id');
-            $table->unsignedBigInteger('artist_id');
+            $table->string('album_name');
+            $table->unsignedBigInteger('artist_id')->nullable();
             $table->dateTime('release_date')->nullable();
-            $table->integer('total_track');
+            $table->integer('total_track')->nullable();
             $table->timestamps();
         });
 
@@ -26,7 +27,7 @@ class CreateAlbumsTable extends Migration
                   ->references('artist_id')
                   ->on('artists')
                   ->onUpdate('cascade')
-                  ->onDelete('cascade');
+                  ->onDelete('cascade');                  
         });
     }
 
