@@ -22,7 +22,7 @@ class UserSeeder extends Seeder
             [
             'name' => 'Pham Tuan Hiep',
             'email' => 'hieppham1999@gmail.com',
-            'user_type' => 'admin',
+            'role' => 'admin',
             'password' => Hash::make('123456'),
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
@@ -30,7 +30,7 @@ class UserSeeder extends Seeder
             [
             'name' => 'Vuong Thi Bich Ngoc',
             'email' => 'vuongngoc1999@gmail.com',
-            'user_type' => 'user',
+            'role' => 'user',
             'password' => Hash::make('123456'),
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')

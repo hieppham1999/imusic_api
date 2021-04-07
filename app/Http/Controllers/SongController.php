@@ -13,9 +13,9 @@ class SongController extends Controller
 {
     //
 
-    function showUploadPage(){
-        return view('admin.file_upload');
-
+    function index(){
+        $songs = Song::all();
+        return view('song_index', ['songs' => $songs]);
     }
 
     function upload(Request $request) {
@@ -24,7 +24,6 @@ class SongController extends Controller
         $song_url = $path.$newname;
         $upload = $request->_file->move(public_path($path), $newname);
         if ($upload) {
-            echo 'File has been successfully uploaded';
 
             $mp3file = new mp3file($upload);
             $song_duration = $mp3file->getDuration()*1000;
@@ -58,6 +57,8 @@ class SongController extends Controller
                     $song->save();
                 
             }
+
+            return redirect()->route('upload.page')->with('success', "Uploaded successfully!!!");
 
 
         } else {

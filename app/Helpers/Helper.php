@@ -3,6 +3,7 @@ namespace App\Helpers;
 
 class Helper {
     public static function renameFile($path, $filename) {
+        $filename = str_replace(' ', '-', $filename);
         if($pos = strrpos($filename,'.')) {
             $name = substr($filename, 0, $pos);
             $ext = substr($filename, $pos);
