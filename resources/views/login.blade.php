@@ -11,8 +11,8 @@
     <form action="{{ route('auth.check') }}" method="post">
         @csrf
         <div class="result">
-            @if(Session::get('fail'))
-                <div>{{ Session::get('fail')}}</div>
+            @if(Session::get('error'))
+                <div>{{ Session::get('error')}}</div>
             @endif
         </div>
         <div>

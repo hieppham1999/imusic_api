@@ -1,8 +1,7 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserAuthController;
 use App\Http\Controllers\SongController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,27 +16,20 @@ use App\Http\Controllers\SongController;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->middleware(['guest']);
 
-Route::post('check', [UserAuthController::class, 'check'])->name('auth.check');
-//Route::view('login', 'login');
-Route::get('/login', function () {
-    if (session()->has('user'))
-    {
-        return redirect('profile');
-    }
-    return view('login');
-});
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['admin'])->name('dashboard');
 
-Route::get('profile', [UserAuthController::class, 'profile']);
+Route::get('/song', [SongController::class, 'index'])
+    ->middleware(['admin'])->name('song');
 
-Route::get('file_upload', [SongController::class, 'showUploadPage']);
-Route::post('upload', [SongController::class, 'upload'])->name('song.upload');
+Route::get('/upload', function () {
+    return view('file_upload');
+})->middleware(['admin'])->name('upload.page');
 
-Route::get('/logout', function () {
-    if (session()->has('user'))
-    {
-        session()->pull('user');
-    }
-    return redirect('login');
-});
+Route::post('/upload', [SongController::class, 'upload'])
+    ->middleware(['admin'])->name('song.upload');
+
+require __DIR__.'/auth.php';
