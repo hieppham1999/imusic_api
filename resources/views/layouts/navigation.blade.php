@@ -22,7 +22,7 @@
                     </x-nav-link>
                 </div>
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('song.upload')" :active="request()->routeIs('song.upload')">
+                    <x-nav-link :href="route('songs.create')" :active="request()->routeIs('songs.create')">
                         {{ __('Upload') }}
                     </x-nav-link>
                 </div>
