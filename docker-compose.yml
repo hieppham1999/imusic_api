@@ -3,6 +3,7 @@ services:
 
   #PHP Service
   api:
+    container_name: api
     build: .
     restart: unless-stopped
     volumes:
@@ -21,8 +22,11 @@ services:
   db:
     image: mariadb:10.5.9
     container_name: db
+    restart: always
     environment: 
       MYSQL_ROOT_PASSWORD: "1"
       MYSQL_DATABASE: "imusic"
     ports:
      - "2105:3306"
+    volumes:
+      - ./mariadb_data:/var/lib/mariadb

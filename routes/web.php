@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\SongController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,8 +23,11 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['admin'])->name('dashboard');
 
-Route::get('/song', [SongController::class, 'index'])
-    ->middleware(['admin'])->name('song');
+Route::get('/songs', [SongController::class, 'index'])
+    ->middleware(['admin'])->name('songs.index');
+
+Route::get('/users', [UserController::class, 'index'])
+    ->middleware(['admin'])->name('users.index');
 
 Route::get('/upload', function () {
     return view('file_upload');

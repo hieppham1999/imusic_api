@@ -17,6 +17,7 @@ class CreateSongsTable extends Migration
             $table->id('song_id');
             $table->string('song_url')->unique();
             $table->string('title');
+            $table->string('artist')->nullable();
             $table->unsignedBigInteger('album_id')->nullable();
             $table->integer('duration');
             $table->string('art_uri')->nullable();

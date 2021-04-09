@@ -29,11 +29,12 @@ class SongController extends Controller
             $song_duration = $mp3file->getDuration()*1000;
             
             $data = $request->input();
-
+            Log::info($data);
             $song = Song::create([
             'title' => $data['title'],
             'song_url' => $song_url,
             'duration' => $song_duration,
+            'artist' => $data['artist_name'],
             ]);
 
             // store artist info
