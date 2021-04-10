@@ -13,7 +13,7 @@
                     <table class="table-auto md:w-full">
                         <thead>
                           <tr class="text-left">
-                            <th>id</th>
+                            <th>ID</th>
                             <th>Title</th>
                             <th>Artist</th>
                             <th>Album</th>
@@ -26,18 +26,10 @@
                         <tbody>
                             @foreach ($songs as $song)
                                 @if ($loop->odd)
-                                    <tr>
-                                        <td>{{ $song->song_id }}</td>
-                                        <td>{{ $song->title }}</td>
-                                        <td>{{ $song->artist }}</td>
-                                        <td>{{ $song->album->album_name }}</td>
-                                        <td>{{ $song->genre_id }}</td>
-                                        <td>{{ $song->language_id }}</td>
-                                        <td>{{ $song->duration }}</td>
-                                        <td>{{ $song->song_url }}</td>
-                                    </tr>
+                                    <tr class="leading-7">
                                 @elseif ($loop->even)
-                                    <tr class="bg-green-200">
+                                    <tr class="bg-green-100 leading-7">
+                                @endif
                                         <td>{{ $song->song_id }}</td>
                                         <td>{{ $song->title }}</td>
                                         <td>{{ $song->artist }}</td>
@@ -47,7 +39,6 @@
                                         <td>{{ $song->duration }}</td>
                                         <td>{{ $song->song_url }}</td>
                                     </tr>
-                                @endif
                             @endforeach
                         </tbody>
                       </table>

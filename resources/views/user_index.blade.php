@@ -22,20 +22,15 @@
                         <tbody>
                             @foreach ($users as $user)
                                 @if ($loop->odd)
-                                    <tr>
-                                        <td>{{ $user->user_id }}</td>
-                                        <td>{{ $user->name }}</td>
-                                        <td>{{ $user->email }}</td>
-                                        <td>{{ $user->role }}</td>
-                                    </tr>
+                                    <tr class="leading-7">
                                 @elseif ($loop->even)
-                                    <tr class="bg-blue-200">
+                                    <tr class="bg-blue-200 leading-7">
+                                @endif
                                         <td>{{ $user->user_id }}</td>
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->email }}</td>
                                         <td>{{ $user->role }}</td>
                                     </tr>
-                                @endif
                             @endforeach
                         </tbody>
                       </table>
