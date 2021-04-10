@@ -12,6 +12,7 @@
                     <div class="grid grid-cols-3 gap-3 bg-gray-100">
                         <div class="col-span-2">
                             <form action="{{ route('songs.update', ['song_id' => $song->song_id]) }}" method="post" enctype="multipart/form-data">
+                            @method('PUT')
                             @csrf
                                 @if (session('success'))
                                     <div class="alert alert-success">

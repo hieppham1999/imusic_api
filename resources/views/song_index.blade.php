@@ -10,6 +10,11 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     Song_index page!
+                    @if (session('success'))
+                    <div class="alert alert-success" role="alert">
+                            {{ session('success') }}
+                    </div>
+                    @endif
                     <table class="table-auto md:w-full">
                         <thead>
                           <tr class="text-left">
@@ -38,6 +43,20 @@
                                         <td>{{ $song->language_id }}</td>
                                         <td>{{ $song->duration }}</td>
                                         <td>{{ $song->song_url }}</td>
+                                        <td>
+                                            <a href=" {{ route('songs.edit', ['song_id' => $song->song_id]) }}">
+                                                <x-edit-logo />
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <form action="{{ route('songs.destroy', ['song_id' => $song->song_id]) }}" method="post">
+                                                @method('DELETE')
+                                                @csrf
+                                                <button type="submit">
+                                                    <x-trash-logo />
+                                                </button>
+                                            </form>
+                                        </td>
                                     </tr>
                             @endforeach
                         </tbody>

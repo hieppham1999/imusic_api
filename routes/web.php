@@ -28,11 +28,17 @@ Route::get('/dashboard', function () {
 Route::prefix('songs')->group(function () {
     Route::get('/', [SongController::class, 'index'])
         ->middleware(['admin'])->name('songs.index');
-
+    // Song Edit
     Route::get('/{song_id}/edit', [SongController::class, 'edit'])
         ->middleware(['admin'])->name('songs.edit');
-    Route::post('/{song_id}', [SongController::class, 'update'])
+
+    // Song Update
+    Route::put('/{song_id}', [SongController::class, 'update'])
         ->middleware(['admin'])->name('songs.update');
+
+    // Song Delete
+    Route::delete('/{song_id}', [SongController::class, 'destroy'])
+        ->middleware(['admin'])->name('songs.destroy');
 });
 
 Route::get('/users', [UserController::class, 'index'])

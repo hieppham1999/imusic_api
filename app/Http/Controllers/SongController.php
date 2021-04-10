@@ -7,6 +7,8 @@ use App\Helpers\Helper;
 use App\Helpers\mp3file;
 use App\Models\Artist;
 use App\Models\Album;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 
 class SongController extends Controller
@@ -72,10 +74,9 @@ class SongController extends Controller
     }
 
     function update(Request $request, $song_id){
-        Log::info($song_id);
         $data = $request->input();
         $song = Song::find($song_id);
-        Log::info($song->title);
+
         $song->title = $data['title'];
 
         // Artist
@@ -103,5 +104,16 @@ class SongController extends Controller
         
         
         return redirect()->route('songs.edit', [$song_id])->with('success', "Updated successfully!!!");
+    }
+
+    function destroy(Request $request, $song_id){
+        $song = Song::find($song_id);
+        $song_title = $song->title;
+        $song_artist = $song->artist;
+        $song_url = $song->song_url;
+        $song->artists()->detach();
+        $song->forceDelete();
+        File::delete(public_path($song_url));
+        return redirect()->route('songs.index')->with('success', "Song '$song_title - $song_artist' has been deleted successfully!!!");
     }
 }
