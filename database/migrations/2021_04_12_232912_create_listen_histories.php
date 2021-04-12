@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGenresSongsTable extends Migration
+class CreateListenHistories extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateGenresSongsTable extends Migration
      */
     public function up()
     {
-        Schema::create('genres_songs', function (Blueprint $table) {
+        Schema::create('listen_histories', function (Blueprint $table) {
             $table->id('id');
-            $table->unsignedBigInteger('genre_id');
-            $table->foreign('genre_id')
-                  ->references('genre_id')
-                  ->on('genres')
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')
+                  ->references('user_id')
+                  ->on('users')
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
             $table->unsignedBigInteger('song_id');
@@ -38,6 +38,6 @@ class CreateGenresSongsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('genres_songs');
+        Schema::dropIfExists('listen_histories');
     }
 }

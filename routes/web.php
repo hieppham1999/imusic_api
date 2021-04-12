@@ -44,9 +44,8 @@ Route::prefix('songs')->group(function () {
 Route::get('/users', [UserController::class, 'index'])
     ->middleware(['admin'])->name('users.index');
 
-Route::get('/upload', function () {
-    return view('file_upload');
-})->middleware(['admin'])->name('songs.create');
+Route::get('/upload', [SongController::class, 'create'])
+    ->middleware(['admin'])->name('songs.create');
 
 Route::post('/upload', [SongController::class, 'store'])
     ->middleware(['admin'])->name('songs.store');

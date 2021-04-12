@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLanguagesSongsTable extends Migration
+class CreateUsersSkipSongs extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateLanguagesSongsTable extends Migration
      */
     public function up()
     {
-        Schema::create('languages_songs', function (Blueprint $table) {
+        Schema::create('users_skip_songs', function (Blueprint $table) {
             $table->id('id');
-            $table->unsignedBigInteger('language_id');
-            $table->foreign('language_id')
-                  ->references('language_id')
-                  ->on('languages')
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')
+                  ->references('user_id')
+                  ->on('users')
                   ->onUpdate('cascade')
                   ->onDelete('cascade');
             $table->unsignedBigInteger('song_id');
@@ -38,6 +38,6 @@ class CreateLanguagesSongsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('languages_songs');
+        Schema::dropIfExists('users_skip_songs');
     }
 }

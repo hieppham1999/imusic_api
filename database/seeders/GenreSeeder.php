@@ -19,43 +19,43 @@ class GenreSeeder extends Seeder
         //
         DB::table('genres')->insert([
             [
-                'name' => 'Classical',
+                'genre_name' => 'Classical',
             ],
             [
-                'name' => 'Country',
+                'genre_name' => 'Country',
             ],
             [
-                'name' => 'EDM',
+                'genre_name' => 'EDM',
             ],
             [
-                'name' => 'Hip-hop',
+                'genre_name' => 'Hip-hop',
             ],
             [
-                'name' => 'Indie rock',
+                'genre_name' => 'Indie rock',
             ],
             [
-                'name' => 'Jazz',
+                'genre_name' => 'Jazz',
             ],
             [
-                'name' => 'K-pop',
+                'genre_name' => 'Folk',
             ],
             [
-                'name' => 'Metal',
+                'genre_name' => 'Metal',
             ],
             [
-                'name' => 'Oldies',
+                'genre_name' => 'Oldies',
             ],
             [
-                'name' => 'Pop',
+                'genre_name' => 'Pop',
             ],
             [
-                'name' => 'Rap',
+                'genre_name' => 'Rap',
             ],
             [
-                'name' => 'R&B',
+                'genre_name' => 'R&B',
             ],
             [
-                'name' => 'Rock',
+                'genre_name' => 'Rock',
             ],
         ]);
     }

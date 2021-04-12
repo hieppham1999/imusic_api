@@ -19,28 +19,28 @@ class LanguageSeeder extends Seeder
         //
         DB::table('languages')->insert([
             [
-                'name' => 'Vietnamese',
+                'language_name' => 'Vietnamese',
             ],
             [
-                'name' => 'English',
+                'language_name' => 'English',
             ],
             [
-                'name' => 'Chinese',
+                'language_name' => 'Chinese',
             ],
             [
-                'name' => 'Japanese',
+                'language_name' => 'Japanese',
             ],
             [
-                'name' => 'French',
+                'language_name' => 'French',
             ],
             [
-                'name' => 'Korean',
+                'language_name' => 'Korean',
             ],
             [
-                'name' => 'Russian',
+                'language_name' => 'Russian',
             ],
             [
-                'name' => 'Turkish',
+                'language_name' => 'Other',
             ],
         ]);
     }

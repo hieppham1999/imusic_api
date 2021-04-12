@@ -39,8 +39,8 @@
                                         <td>{{ $song->title }}</td>
                                         <td>{{ $song->artist }}</td>
                                         <td>{{ $song->album->album_name }}</td>
-                                        <td>{{ $song->genre_id }}</td>
-                                        <td>{{ $song->language_id }}</td>
+                                        <td>{{ $song->genre->genre_name }}</td>
+                                        <td>{{ $song->language->language_name }}</td>
                                         <td>{{ $song->duration }}</td>
                                         <td>{{ $song->song_url }}</td>
                                         <td>

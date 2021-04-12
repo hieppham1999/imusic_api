@@ -11,7 +11,7 @@ class Song extends Model
     protected $table = 'songs';
     protected $primaryKey = 'song_id';
 
-    protected $fillable = ['song_url', 'title', 'artist', 'album_id', 'release_date', 'duration'];
+    protected $fillable = ['song_url', 'title', 'artist', 'album_id', 'release_date', 'duration', 'genre_id', 'language_id'];
 
     public function artists() {
         return $this->belongsToMany(Artist::class, 'artists_songs', 'song_id', 'artist_id');
@@ -25,14 +25,21 @@ class Song extends Model
     public function playlists() {
         return $this->belongsToMany(Playlist::class, 'playlists_songs', 'song_id', 'playlist_id');
     }
-    public function genres() {
-        return $this->belongsToMany(Genre::class, 'genres_songs', 'song_id', 'genre_id');
+    public function genre() {
+        return $this->belongsTo(Genre::class, 'genre_id');
     }
-    public function languages() {
-        return $this->belongsToMany(Language::class, 'languages_songs', 'song_id', 'language_id');
+    public function language() {
+        return $this->belongsTo(Language::class, 'language_id');
     }
-    public function users() {
+    public function usersLiked() {
         return $this->belongsToMany(User::class, 'users_like_songs', 'song_id', 'user_id');
     }
+    public function listenHistories() {
+        return $this->belongsToMany(User::class, 'listen_histories', 'song_id', 'user_id');
+    }
+    public function usersSkipped() {
+        return $this->belongsToMany(User::class, 'users_skip_songs', 'song_id', 'user_id');
+    }
+
 
 }

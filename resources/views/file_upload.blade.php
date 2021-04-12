@@ -37,11 +37,23 @@
                                     </div>
                                     <div class="my-2">
                                         <label for="Language" class="form-label">Language</label>
-                                        <input type="text" class="form-control md:w-full border-gray-300" name="language" id="language" placeholder="">
+                                        <select class="form-control md:w-full border-gray-300" name="language" id="language">
+                                            @foreach ($languages as $id => $language)
+                                                <option value="{{ $id + 1 }}" {{ (old("language") == $id + 1 ? "selected":"") }} >
+                                                    {{ $language->language_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <div class="my-2">
                                         <label for="Genre" class="form-label">Genre</label>
-                                        <input type="text" class="form-control md:w-full border-gray-300" name="genre" id="genre" placeholder="">
+                                        <select class="form-control md:w-full border-gray-300" name="genre" id="genre">
+                                            @foreach ($genres as $id => $genre)
+                                                <option value="{{ $id + 1 }}" {{ (old("genre") == $id + 1 ? "selected":"") }} >
+                                                    {{ $genre->genre_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
                                     </div>
                             
                                     <div class="my-2 col-span-3">

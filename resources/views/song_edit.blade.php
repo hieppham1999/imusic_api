@@ -38,11 +38,23 @@
                                     </div>
                                     <div class="my-2">
                                         <label for="Language" class="form-label">Language</label>
-                                        <input type="text" class="form-control md:w-full border-gray-300" name="language" id="language" placeholder="" value="{{ $song->language_id ?? '' }}">
+                                        <select class="form-control md:w-full border-gray-300" name="language" id="language">
+                                            @foreach ($languages as $id => $language)
+                                                <option value="{{ $id + 1 }}" {{ $id + 1 === $song->language_id ? "selected":"" }} >
+                                                    {{ $language->language_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <div class="my-2">
                                         <label for="Genre" class="form-label">Genre</label>
-                                        <input type="text" class="form-control md:w-full border-gray-300" name="genre" id="genre" placeholder="" value="{{ $song->genre_id ?: '' }}">
+                                        <select class="form-control md:w-full border-gray-300" name="genre" id="genre">
+                                            @foreach ($genres as $id => $genre)
+                                                <option value="{{ $id + 1 }}" {{ $id + 1 === $song->genre_id ? "selected":"" }} >
+                                                    {{ $genre->genre_name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
                                     </div>
                                     <div class="my-2 col-span-3">
                                         <label for="URL" class="form-label">URL</label>

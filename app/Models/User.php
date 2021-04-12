@@ -47,7 +47,16 @@ class User extends Authenticatable
     public function playlists(){
         return $this->hasMany(Playlist::class);
     }
-    public function songs() {
+    public function songsLiked() {
         return $this->belongsToMany(Song::class, 'users_like_songs', 'user_id', 'song_id');
+    }
+    public function listenHistories() {
+        return $this->belongsToMany(Song::class, 'listen_histories', 'user_id', 'song_id');
+    }
+    public function skippedSongs() {
+        return $this->belongsToMany(Song::class, 'users_skip_songs', 'user_id', 'song_id');
+    }
+    public function genres() {
+        return $this->belongsToMany(Genre::class, 'recommend_point', 'user_id', 'genre_id')->withPivot('language_id','point')->withTimestamps();
     }
 }

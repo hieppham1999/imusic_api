@@ -14,7 +14,7 @@ class Album extends Model
     protected $fillable = ['album_name'];
 
     public function artist(){
-        return $this->belongsTo(Artist::class);
+        return $this->belongsTo(Artist::class, 'artist_id');
     }
     public function songs() {
         return $this->hasMany(Song::class);

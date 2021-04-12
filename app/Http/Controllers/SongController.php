@@ -7,6 +7,8 @@ use App\Helpers\Helper;
 use App\Helpers\mp3file;
 use App\Models\Artist;
 use App\Models\Album;
+use App\Models\Genre;
+use App\Models\Language;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
@@ -17,7 +19,18 @@ class SongController extends Controller
 
     function index(){
         $songs = Song::all();
-        return view('song_index', ['songs' => $songs]);
+        return view('song_index', [
+            'songs' => $songs
+            ]);
+    }
+
+    function create(){
+        $languages = Language::all();
+        $genres = Genre::all();
+        return view('file_upload', [
+            'languages' => $languages,
+            'genres' => $genres
+            ]);
     }
 
     function store(Request $request) {
@@ -31,12 +44,13 @@ class SongController extends Controller
             $song_duration = $mp3file->getDuration()*1000;
             
             $data = $request->input();
-            Log::info($data);
             $song = Song::create([
             'title' => $data['title'],
             'song_url' => $song_url,
             'duration' => $song_duration,
             'artist' => $data['artist_name'],
+            'language_id' => $data['language'],
+            'genre_id' => $data['genre']
             ]);
 
             // store artist info
@@ -70,7 +84,13 @@ class SongController extends Controller
     }
     function edit($song_id){
         $song = Song::findOrFail($song_id);
-        return view('song_edit', ['song' => $song]);
+        $languages = Language::all();
+        $genres = Genre::all();
+        return view('song_edit', [
+            'song' => $song,
+            'languages' => $languages,
+            'genres' => $genres,
+            ]);
     }
 
     function update(Request $request, $song_id){
@@ -100,6 +120,11 @@ class SongController extends Controller
             'album_name' => $request->album
         ]);
         $song->album()->associate($album);
+
+        // Language
+        $song->language_id = $request->language;
+
+        $song->genre_id = $request->genre;
         $song->save(); 
         
         

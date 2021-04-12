@@ -14,6 +14,10 @@ class Genre extends Model
     protected $fillable = ['genre_name'];
 
     public function songs() {
-        return $this->belongsToMany(Song::class, 'genres_songs', 'genre_id', 'song_id');
+        return $this->hasMany(Song::class);
     }
+    public function users() {
+        return $this->belongsToMany(User::class, 'recommend_point', 'genre_id', 'user_id')->withPivot('language_id','point')->withTimestamps();
+    }
+    
 }

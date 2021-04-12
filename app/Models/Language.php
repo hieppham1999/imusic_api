@@ -14,6 +14,6 @@ class Language extends Model
     protected $fillable = ['language_name'];
 
     public function songs() {
-        return $this->belongsToMany(Song::class, 'languages_songs', 'language_id', 'song_id');
+        return $this->hasMany(Song::class);
     }
 }
