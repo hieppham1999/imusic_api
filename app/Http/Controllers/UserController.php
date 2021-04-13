@@ -27,7 +27,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('user_create');
     }
 
     /**
@@ -38,7 +38,22 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $attr = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|unique:users,email',
+            'password' => 'required|string|min:6|confirmed',
+            'role' => 'required|string'
+        ]);
+        Log::info($attr);
+        $user = User::create([
+            'name' => $attr['name'],
+            'password' => bcrypt($attr['password']),
+            'email' => $attr['email'],
+            'role' => $attr['role']
+        ]);
+
+        return redirect()->route('users.create')->with('success', "Create user successfully!!!");
     }
 
     /**

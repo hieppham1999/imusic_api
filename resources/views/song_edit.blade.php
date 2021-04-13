@@ -15,7 +15,7 @@
                             @method('PUT')
                             @csrf
                                 @if (session('success'))
-                                    <div class="alert alert-success">
+                                    <div class="alert alert-success text-green-400 text-center">
                                         {{ session('success') }}
                                     </div>
                                 @endif

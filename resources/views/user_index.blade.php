@@ -10,6 +10,11 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-grey border-b border-gray-200">
                     User_index page!
+                    <a href=" {{ route('users.create')}} ">
+                        <div class="bg-green-400 text-white rounded-full py-1 w-20 text-center">
+                            Create
+                        </div>
+                    </a>
                     <table class="table-auto md:w-full">
                         <thead>
                           <tr class="text-left">

@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
         //
         DB::table('users')->insert([
             [
-            'name' => 'Pham Tuan Hiep',
+            'name' => 'Phạm Tuấn Hiệp',
             'email' => 'hieppham1999@gmail.com',
             'role' => 'admin',
             'password' => Hash::make('123456'),
@@ -27,13 +27,29 @@ class UserSeeder extends Seeder
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
-            'name' => 'Vuong Thi Bich Ngoc',
+            'name' => 'Vương Thị Bích Ngọc',
             'email' => 'vuongngoc1999@gmail.com',
             'role' => 'user',
             'password' => Hash::make('123456'),
             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-            ]
+            ],
+            [
+            'name' => 'Phạm Trung Hiếu',
+            'email' => 'hieupham1993@live.com',
+            'role' => 'user',
+            'password' => Hash::make('123456'),
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ],
+            [
+            'name' => 'Đoàn Đức Dũng',
+            'email' => 'dungdidom1101@gmail.com',
+            'role' => 'user',
+            'password' => Hash::make('123456'),
+            'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+            'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ],
         ]);
     }
 }

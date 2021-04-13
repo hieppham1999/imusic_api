@@ -57,6 +57,12 @@ class GenreSeeder extends Seeder
             [
                 'genre_name' => 'Rock',
             ],
+            [
+                'genre_name' => 'Funk',
+            ],
+            [
+                'genre_name' => 'Children',
+            ],
         ]);
     }
 }

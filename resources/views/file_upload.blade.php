@@ -14,51 +14,75 @@
                             <form action="{{ route('songs.store') }}" method="post" enctype="multipart/form-data">
                             @csrf
                                 @if (session('success'))
-                                    <div class="alert alert-success">
+                                    <div class="alert alert-success text-green-400 text-center">
                                         {{ session('success') }}
                                     </div>
                                 @endif
+
                                 <div class="grid grid-cols-3 gap-3 m-5">
                                     <div class="my-2 col-span-3 ">
                                         <label for="Title" class="form-label">Title</label>
-                                        <input type="text" class="form-control md:w-full border-gray-300" name="title" id="title" placeholder="">
+                                        <input type="text" class="form-control md:w-full border-gray-300" name="title" id="title" value="{{ old('title') }}" placeholder="" >
+                                        @error('title')
+                                            <div class="alert alert-danger text-red-500">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                     <div class="my-2 col-span-3">
                                         <label for="Artist" class="form-label">Artist</label>
-                                        <input type="text" class="form-control md:w-full border-gray-300" name="artist_name" id="artist" placeholder="">
+                                        <input type="text" class="form-control md:w-full border-gray-300" name="artist_name" id="artist" value="{{ old('artist_name') }}" placeholder="">
+                                        @error('artist_name')
+                                        <div class="alert alert-danger text-red-500">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                     <div class="my-2 col-span-3">
                                         <label for="Album" class="form-label">Album</label>
-                                        <input type="text" class="form-control md:w-full border-gray-300" name="album" id="album" placeholder="">
+                                        <input type="text" class="form-control md:w-full border-gray-300" name="album" id="album" value="{{ old('album') }}" placeholder="">
+                                        @error('album')
+                                        <div class="alert alert-danger text-red-500">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                     <div class="my-2">
                                         <label for="Release Date" class="form-label">Release Date</label>
-                                        <input type="text" class="form-control md:w-full border-gray-300" name="release_date" id="release_date" placeholder="">
+                                        <input type="text" class="form-control md:w-full border-gray-300" name="release_date" id="release_date" value="{{ old('release_date') }}" placeholder="">
+                                        @error('release_date')
+                                        <div class="alert alert-danger text-red-500">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                     <div class="my-2">
                                         <label for="Language" class="form-label">Language</label>
                                         <select class="form-control md:w-full border-gray-300" name="language" id="language">
+                                                <option disabled selected value> -- select an language -- </option>
                                             @foreach ($languages as $id => $language)
                                                 <option value="{{ $id + 1 }}" {{ (old("language") == $id + 1 ? "selected":"") }} >
                                                     {{ $language->language_name }}
                                                 </option>
                                             @endforeach
                                         </select>
+                                        @error('language')
+                                        <div class="alert alert-danger text-red-500">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                     <div class="my-2">
                                         <label for="Genre" class="form-label">Genre</label>
                                         <select class="form-control md:w-full border-gray-300" name="genre" id="genre">
+                                                <option disabled selected value> -- select an genre -- </option>
                                             @foreach ($genres as $id => $genre)
                                                 <option value="{{ $id + 1 }}" {{ (old("genre") == $id + 1 ? "selected":"") }} >
                                                     {{ $genre->genre_name }}
                                                 </option>
                                             @endforeach
                                         </select>
+                                        @error('genre')
+                                        <div class="alert alert-danger text-red-500">{{ $message }}</div>
+                                        @enderror
                                     </div>
                             
                                     <div class="my-2 col-span-3">
                                         <label for="File Select" class="form-label">Select mp3 file</label>
-                                        <input class="form-control border-gray-300" type="file" id="formFile" name="_file">
+                                        <input class="form-control border-gray-300" type="file" id="formFile" name="_file" value="{{ old('_file') }}">
+                                        @error('_file')
+                                        <div class="alert alert-danger text-red-500">{{ $message }}</div>
+                                        @enderror
                                     </div>
                     
                                 </div>

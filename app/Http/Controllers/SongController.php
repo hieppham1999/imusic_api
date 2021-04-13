@@ -34,6 +34,17 @@ class SongController extends Controller
     }
 
     function store(Request $request) {
+
+        // Validate input
+        $validated = $request->validate([
+            'title' => 'required | max:255',
+            'artist_name' => 'required | max:255',
+            'album' => 'required | max:255',
+            'release_date' => 'required | date_format:Y/m/d',
+            'language' => 'required',
+            'genre' => 'required',
+            '_file' => 'required | file'
+        ]);
         $path = 'storage/media/songs/';
         $newname = Helper::renameFile($path, $request->file('_file')->getClientOriginalName());
         $song_url = $path.$newname;
@@ -49,6 +60,7 @@ class SongController extends Controller
             'song_url' => $song_url,
             'duration' => $song_duration,
             'artist' => $data['artist_name'],
+            'release_date' => $data['release_date'],
             'language_id' => $data['language'],
             'genre_id' => $data['genre']
             ]);

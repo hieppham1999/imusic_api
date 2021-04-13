@@ -28,6 +28,11 @@ Route::get('/dashboard', function () {
 Route::prefix('songs')->group(function () {
     Route::get('/', [SongController::class, 'index'])
         ->middleware(['admin'])->name('songs.index');
+
+    // Song Upload
+    Route::get('/upload', [SongController::class, 'create'])
+    ->middleware(['admin'])->name('songs.create');
+
     // Song Edit
     Route::get('/{song_id}/edit', [SongController::class, 'edit'])
         ->middleware(['admin'])->name('songs.edit');
@@ -41,11 +46,15 @@ Route::prefix('songs')->group(function () {
         ->middleware(['admin'])->name('songs.destroy');
 });
 
-Route::get('/users', [UserController::class, 'index'])
-    ->middleware(['admin'])->name('users.index');
 
-Route::get('/upload', [SongController::class, 'create'])
-    ->middleware(['admin'])->name('songs.create');
+Route::prefix('users')->group(function () {
+    Route::get('/', [UserController::class, 'index'])
+        ->middleware(['admin'])->name('users.index');
+    Route::get('/create', [UserController::class, 'create'])
+        ->middleware(['admin'])->name('users.create');
+    Route::post('/', [UserController::class, 'store'])
+        ->middleware(['admin'])->name('users.store');
+});
 
 Route::post('/upload', [SongController::class, 'store'])
     ->middleware(['admin'])->name('songs.store');

@@ -10,6 +10,11 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     Song_index page!
+                    <a href=" {{ route('songs.create')}} ">
+                        <div class="bg-green-400 text-white rounded-full py-1 w-20 text-center">
+                            Upload
+                        </div>
+                    </a>
                     @if (session('success'))
                     <div class="alert alert-success" role="alert">
                             {{ session('success') }}
