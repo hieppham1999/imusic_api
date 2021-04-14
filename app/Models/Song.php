@@ -11,7 +11,7 @@ class Song extends Model
     protected $table = 'songs';
     protected $primaryKey = 'song_id';
 
-    protected $fillable = ['song_url', 'title', 'artist', 'album_id', 'release_date', 'duration', 'genre_id', 'language_id'];
+    protected $fillable = ['song_url', 'title', 'artist', 'album_id', 'year', 'duration', 'genre_id', 'language_id', 'art_uri', 'composer'];
 
     public function artists() {
         return $this->belongsToMany(Artist::class, 'artists_songs', 'song_id', 'artist_id');

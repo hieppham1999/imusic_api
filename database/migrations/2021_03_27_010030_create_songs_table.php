@@ -18,10 +18,11 @@ class CreateSongsTable extends Migration
             $table->string('song_url')->unique();
             $table->string('title');
             $table->string('artist');
+            $table->string('composer');
             $table->unsignedBigInteger('album_id')->nullable();
             $table->integer('duration');
             $table->string('art_uri')->nullable();
-            $table->date('release_date')->nullable();
+            $table->year('year');
             $table->unsignedBigInteger('language_id')->nullable();
             $table->unsignedBigInteger('genre_id')->nullable();
             $table->timestamps(); 

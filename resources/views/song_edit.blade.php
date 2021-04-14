@@ -32,9 +32,13 @@
                                         <label for="Album" class="form-label">Album</label>
                                         <input type="text" class="form-control md:w-full border-gray-300" name="album" id="album" placeholder="" value="{{ $song->album->album_name }}">
                                     </div>
+                                    <div class="my-2 col-span-3">
+                                        <label for="Composer" class="form-label">Composer</label>
+                                        <input type="text" class="form-control md:w-full border-gray-300" name="composer" id="composer" placeholder="" value="{{ $song->composer }}">
+                                    </div>
                                     <div class="my-2">
-                                        <label for="Release Date" class="form-label">Release Date</label>
-                                        <input type="text" class="form-control md:w-full border-gray-300" name="release_date" id="release_date" placeholder="" value="{{ $song->release_date ?: '' }}">
+                                        <label for="Year" class="form-label">Year</label>
+                                        <input type="text" class="form-control md:w-full border-gray-300" name="year" id="year" placeholder="" value="{{ $song->year ?: '' }}">
                                     </div>
                                     <div class="my-2">
                                         <label for="Language" class="form-label">Language</label>

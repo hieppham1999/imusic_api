@@ -27,6 +27,7 @@
                             <th>Title</th>
                             <th>Artist</th>
                             <th>Album</th>
+                            <th>Year</th>
                             <th>Genre</th>
                             <th>Language</th>
                             <th>Duration</th>
@@ -44,6 +45,7 @@
                                         <td>{{ $song->title }}</td>
                                         <td>{{ $song->artist }}</td>
                                         <td>{{ $song->album->album_name }}</td>
+                                        <td>{{ $song->year }}</td>
                                         <td>{{ $song->genre->genre_name }}</td>
                                         <td>{{ $song->language->language_name }}</td>
                                         <td>{{ $song->duration }}</td>

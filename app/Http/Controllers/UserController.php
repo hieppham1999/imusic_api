@@ -45,7 +45,7 @@ class UserController extends Controller
             'password' => 'required|string|min:6|confirmed',
             'role' => 'required|string'
         ]);
-        Log::info($attr);
+
         $user = User::create([
             'name' => $attr['name'],
             'password' => bcrypt($attr['password']),

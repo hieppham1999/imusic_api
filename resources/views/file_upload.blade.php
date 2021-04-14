@@ -41,10 +41,17 @@
                                         <div class="alert alert-danger text-red-500">{{ $message }}</div>
                                         @enderror
                                     </div>
+                                    <div class="my-2 col-span-3">
+                                        <label for="Composer" class="form-label">Composer</label>
+                                        <input type="text" class="form-control md:w-full border-gray-300" name="composer" id="composer" value="{{ old('composer') }}" placeholder="">
+                                        @error('composer')
+                                        <div class="alert alert-danger text-red-500">{{ $message }}</div>
+                                        @enderror
+                                    </div>
                                     <div class="my-2">
-                                        <label for="Release Date" class="form-label">Release Date</label>
-                                        <input type="text" class="form-control md:w-full border-gray-300" name="release_date" id="release_date" value="{{ old('release_date') }}" placeholder="">
-                                        @error('release_date')
+                                        <label for="Year" class="form-label">Year</label>
+                                        <input type="text" class="form-control md:w-full border-gray-300" name="year" id="year" value="{{ old('year') }}" placeholder="">
+                                        @error('year')
                                         <div class="alert alert-danger text-red-500">{{ $message }}</div>
                                         @enderror
                                     </div>

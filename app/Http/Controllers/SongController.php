@@ -7,11 +7,13 @@ use App\Helpers\Helper;
 use App\Helpers\mp3file;
 use App\Models\Artist;
 use App\Models\Album;
+use App\Models\Composer;
 use App\Models\Genre;
 use App\Models\Language;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
+use JamesHeinrich\GetID3\GetID3;
 
 class SongController extends Controller
 {
@@ -40,11 +42,14 @@ class SongController extends Controller
             'title' => 'required | max:255',
             'artist_name' => 'required | max:255',
             'album' => 'required | max:255',
-            'release_date' => 'required | date_format:Y/m/d',
+            'composer' => 'max:255',
+            'year' => 'required | numeric | digits:4',
             'language' => 'required',
             'genre' => 'required',
             '_file' => 'required | file'
         ]);
+
+        // Change file name before store
         $path = 'storage/media/songs/';
         $newname = Helper::renameFile($path, $request->file('_file')->getClientOriginalName());
         $song_url = $path.$newname;
@@ -53,39 +58,55 @@ class SongController extends Controller
 
             $mp3file = new mp3file($upload);
             $song_duration = $mp3file->getDuration()*1000;
-            
+
+            // Extract album cover from mp3 file
+            $image_name = basename($newname, '.mp3').'.jpg';
+            $this->storeImageFromMp3File($song_url, $image_name);
+
+
             $data = $request->input();
             $song = Song::create([
             'title' => $data['title'],
             'song_url' => $song_url,
             'duration' => $song_duration,
             'artist' => $data['artist_name'],
-            'release_date' => $data['release_date'],
+            'composer' => $data['composer'] ? $data['composer'] : "Unknown",
+            'year' => $data['year'],
+            'art_uri' => 'storage/media/album_arts/'.$image_name,
             'language_id' => $data['language'],
             'genre_id' => $data['genre']
             ]);
 
             // store artist info
-            if ($request->has('artist_name')) {
-                $artist_inputs = explode(";", $data['artist_name']);
-                foreach ($artist_inputs as $artist_name) {
-                    $artist_name = trim($artist_name);
-                    $artist = Artist::firstOrCreate([
-                        'artist_name' => $artist_name,
+            $artist_inputs = explode(";", $data['artist_name']);
+            foreach ($artist_inputs as $artist_name) {
+                $artist_name = trim($artist_name);
+                $artist = Artist::firstOrCreate([
+                    'artist_name' => $artist_name,
+                ]);
+                $song->artists()->attach($artist);
+            }
+
+            // store composer info
+            if (!empty($data['composer'])){
+                $composer_inputs = explode(";", $data['composer']);
+                foreach ($composer_inputs as $composer_name) {
+                    $composer_name = trim($composer_name);
+                    $composer = Composer::firstOrCreate([
+                        'composer_name' => $composer_name,
                     ]);
-                    $song->artists()->attach($artist);
+                    $song->composers()->attach($composer);
                 }
+
             }
 
             // store album info
-            if ($request->has('album')) {
-                    $album = Album::firstOrCreate([
-                        'album_name' => $data['album']
-                    ]);
-                    $song->album()->associate($album);
-                    $song->save();
+            $album = Album::firstOrCreate([
+                'album_name' => $data['album']
+            ]);
+            $song->album()->associate($album);
+            $song->save();
                 
-            }
 
             return redirect()->route('songs.create')->with('success', "Uploaded successfully!!!");
 
@@ -94,6 +115,8 @@ class SongController extends Controller
             echo 'Something went wrong';
         }
     }
+
+    
     function edit($song_id){
         $song = Song::findOrFail($song_id);
         $languages = Language::all();
@@ -137,13 +160,32 @@ class SongController extends Controller
         $song->language_id = $request->language;
 
         $song->genre_id = $request->genre;
+
+
+        // Composer
+        if ($song->composer != $request->composer) {
+            $song->composers()->detach();
+            if (empty($request->composer)) {
+                $song->composer = "Unknown";
+            } else {
+                $song->composer = $request->composer;
+                $composer_inputs = explode(";", $request->composer);
+    
+                foreach ($composer_inputs as $composer_name) {
+                    $composer_name = trim($composer_name);
+                    $composer = Composer::firstOrCreate([
+                        'composer_name' => $composer_name,
+                    ]);
+                    $song->composers()->attach($composer);
+                }
+            }
+        }
+        
         $song->save(); 
-        
-        
         return redirect()->route('songs.edit', [$song_id])->with('success', "Updated successfully!!!");
     }
 
-    function destroy(Request $request, $song_id){
+    function destroy($song_id){
         $song = Song::find($song_id);
         $song_title = $song->title;
         $song_artist = $song->artist;
@@ -152,5 +194,18 @@ class SongController extends Controller
         $song->forceDelete();
         File::delete(public_path($song_url));
         return redirect()->route('songs.index')->with('success', "Song '$song_title - $song_artist' has been deleted successfully!!!");
+    }
+
+    function storeImageFromMp3File($file, $newFilename) {
+        $getID3 = new GetID3;
+        $OldThisFileInfo = $getID3->analyze($file);
+        if(isset($OldThisFileInfo['comments']['picture'][0]))
+        {
+            $image= $OldThisFileInfo['comments']['picture'][0]['data'];
+
+            if ($handle = fopen('storage/media/album_arts/'.$newFilename, 'a')) {
+                fwrite($handle, $image);
+            }
+        }
     }
 }
