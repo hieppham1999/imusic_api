@@ -38,3 +38,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 });
 
 Route::get('/songs', [Api\SongController::class, 'index']);
+
+Route::prefix('songs')->group(function () {
+    Route::get('/recently-uploaded/{language_name?}', [SongController::class, 'getRecentlyUploaded'])->name('songs.recently_uploaded');
+
+});

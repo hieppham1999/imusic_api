@@ -44,6 +44,7 @@ Route::prefix('songs')->group(function () {
     // Song Delete
     Route::delete('/{song_id}', [SongController::class, 'destroy'])
         ->middleware(['admin'])->name('songs.destroy');
+
 });
 
 
