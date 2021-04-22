@@ -22,48 +22,21 @@ class SongController extends Controller
 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+    public function getSongsByGenre($genre_id, Request $request){
+        $songs = Song::where('genre_id', $genre_id)
+                        ->orderBy('title');
+        if ($request->has('lim')) {
+            $songs->limit($request->input('lim'));
+        }
+        return response()->json($songs->get());
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+    public function getRecentlyUploadedSongs(Request $request){
+        $songs = Song::latest();
+        if ($request->has('lim')) {
+            $songs->limit($request->input('lim'));
+        }
+        return response()->json($songs->get());
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
 }

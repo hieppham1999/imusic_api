@@ -13,6 +13,51 @@ class Song extends Model
 
     protected $fillable = ['song_url', 'title', 'artist', 'album_id', 'year', 'duration', 'genre_id', 'language_id', 'art_uri', 'composer'];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'genre_id',
+        'album_id',
+        'language_id',
+        'song_url',
+
+    ];
+
+    protected $appends = [
+        'album_name',
+        'language_name',
+        'genre_name',
+        'url',
+
+    ];
+
+ 
+    public function getUrlAttribute() {
+        return  'http://192.168.0.150:8000/'.$this->attributes['song_url'];
+    }
+
+    public function getArtUriAttribute() {
+        return  'http://192.168.0.150:8000/'.$this->attributes['art_uri'];
+    }
+
+    public function getAlbumNameAttribute() {
+        $song = Song::find($this->song_id);
+        
+        return $song ? $song->album->album_name : '';
+    }
+
+    public function getLanguageNameAttribute() {
+        $song = Song::find($this->song_id);
+
+        return $song ? $song->language->language_name : '';
+    }
+
+    public function getGenreNameAttribute() {
+        $song = Song::find($this->song_id);
+
+        return $song ? $song->genre->genre_name : '';
+    }
+
     public function artists() {
         return $this->belongsToMany(Artist::class, 'artists_songs', 'song_id', 'artist_id');
     }

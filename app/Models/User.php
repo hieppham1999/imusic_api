@@ -39,11 +39,18 @@ class User extends Authenticatable
      *
      * @var array
      */
+
+    protected $appends = ['avatar'];
+
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
 
     protected $primaryKey = 'user_id';
+
+    public function getAvatarAttribute() {
+        return "https://www.gravatar.com/avatar/" . md5(strtolower(trim($this->email)));
+    }
 
     public function playlists(){
         return $this->hasMany(Playlist::class);
