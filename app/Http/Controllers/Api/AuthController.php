@@ -7,6 +7,8 @@ use App\Traits\ApiResponser;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -36,16 +38,19 @@ class AuthController extends Controller
     {
         $attr = $request->validate([
             'email' => 'required|string|email|',
-            'password' => 'required|string|min:6'
+            'password' => 'required|string|min:6',
+            'device_name' => 'required',
         ]);
 
-        if (!Auth::attempt($attr)) {
-            return $this->error('Credentials not match', 401);
-        }
+        $user = User::where('email', $request->email)->first();
 
-        return $this->success([
-            'token' => auth()->user()->createToken('API Token')->plainTextToken
-        ]);
+        if (! $user || ! Hash::check($request->password, $user->password)) {
+            throw ValidationException::withMessages([
+                'email' => ['The provided credentials are incorrect.'],
+            ]);
+         }
+
+        return $user->createToken($request->device_name)->plainTextToken;
     }
 
     public function logout()

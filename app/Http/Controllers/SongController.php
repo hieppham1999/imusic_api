@@ -62,6 +62,7 @@ class SongController extends Controller
             // Extract album cover from mp3 file
             $image_name = basename($newname, '.mp3').'.jpg';
             $this->storeImageFromMp3File($song_url, $image_name);
+                    // TODO - what if cant extract
 
 
             $data = $request->input();
@@ -207,5 +208,6 @@ class SongController extends Controller
                 fwrite($handle, $image);
             }
         }
+        // TODO - return something when cant extract
     }
 }

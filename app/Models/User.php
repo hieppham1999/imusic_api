@@ -32,6 +32,10 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'created_at',
+        'updated_at',
+        'user_id',
+        'email_verified_at'
     ];
 
     /**
@@ -48,6 +52,8 @@ class User extends Authenticatable
 
     protected $primaryKey = 'user_id';
 
+    protected $with = ['listenHistories'];
+
     public function getAvatarAttribute() {
         return "https://www.gravatar.com/avatar/" . md5(strtolower(trim($this->email)));
     }
@@ -58,8 +64,14 @@ class User extends Authenticatable
     public function songsLiked() {
         return $this->belongsToMany(Song::class, 'users_like_songs', 'user_id', 'song_id');
     }
+
+    public function listenCount()
+    {
+        return $this->listenHistories->sum('pivot.count');
+    }
+
     public function listenHistories() {
-        return $this->belongsToMany(Song::class, 'listen_histories', 'user_id', 'song_id');
+        return $this->belongsToMany(Song::class, 'listen_histories', 'user_id', 'song_id')->withTimestamps();
     }
     public function skippedSongs() {
         return $this->belongsToMany(Song::class, 'users_skip_songs', 'user_id', 'song_id');

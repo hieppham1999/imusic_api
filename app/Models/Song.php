@@ -28,6 +28,7 @@ class Song extends Model
         'language_name',
         'genre_name',
         'url',
+        'total_listen'
 
     ];
 
@@ -50,6 +51,12 @@ class Song extends Model
         $song = Song::find($this->song_id);
 
         return $song ? $song->language->language_name : '';
+    }
+
+    public function getTotalListenAttribute() {
+        $song = Song::find($this->song_id);
+
+        return $song ? $song->listenHistories->count() : '0';
     }
 
     public function getGenreNameAttribute() {
@@ -80,7 +87,7 @@ class Song extends Model
         return $this->belongsToMany(User::class, 'users_like_songs', 'song_id', 'user_id');
     }
     public function listenHistories() {
-        return $this->belongsToMany(User::class, 'listen_histories', 'song_id', 'user_id');
+        return $this->belongsToMany(User::class, 'listen_histories', 'song_id', 'user_id')->withTimestamps();
     }
     public function usersSkipped() {
         return $this->belongsToMany(User::class, 'users_skip_songs', 'song_id', 'user_id');
