@@ -32,6 +32,8 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/auth/logout', [Api\AuthController::class, 'logout']);
 
     Route::get('/songs/listen/{song_id}', [Api\SongController::class, 'songIsListened']);
+
+    Route::get('/me/listen-histories', [Api\UserController::class, 'getUserListenHistories']);
 });
 
 

@@ -21,43 +21,43 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     return view('dashboard');
-})->middleware(['admin'])->name('dashboard');
+})->middleware(['auth'])->name('dashboard');
 
 
 
 Route::prefix('songs')->group(function () {
     Route::get('/', [SongController::class, 'index'])
-        ->middleware(['admin'])->name('songs.index');
+        ->middleware(['auth'])->name('songs.index');
 
     // Song Upload
     Route::get('/upload', [SongController::class, 'create'])
-    ->middleware(['admin'])->name('songs.create');
+    ->middleware(['auth'])->name('songs.create');
 
     // Song Edit
     Route::get('/{song_id}/edit', [SongController::class, 'edit'])
-        ->middleware(['admin'])->name('songs.edit');
+        ->middleware(['auth'])->name('songs.edit');
 
     // Song Update
     Route::put('/{song_id}', [SongController::class, 'update'])
-        ->middleware(['admin'])->name('songs.update');
+        ->middleware(['auth'])->name('songs.update');
 
     // Song Delete
     Route::delete('/{song_id}', [SongController::class, 'destroy'])
-        ->middleware(['admin'])->name('songs.destroy');
+        ->middleware(['auth'])->name('songs.destroy');
 
 });
 
 
 Route::prefix('users')->group(function () {
     Route::get('/', [UserController::class, 'index'])
-        ->middleware(['admin'])->name('users.index');
+        ->middleware(['auth'])->name('users.index');
     Route::get('/create', [UserController::class, 'create'])
-        ->middleware(['admin'])->name('users.create');
+        ->middleware(['auth'])->name('users.create');
     Route::post('/', [UserController::class, 'store'])
-        ->middleware(['admin'])->name('users.store');
+        ->middleware(['auth'])->name('users.store');
 });
 
 Route::post('/upload', [SongController::class, 'store'])
-    ->middleware(['admin'])->name('songs.store');
+    ->middleware(['auth'])->name('songs.store');
 
 require __DIR__.'/auth.php';

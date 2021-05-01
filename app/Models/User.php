@@ -35,7 +35,7 @@ class User extends Authenticatable
         'created_at',
         'updated_at',
         'user_id',
-        'email_verified_at'
+        'email_verified_at',
     ];
 
     /**
@@ -52,7 +52,7 @@ class User extends Authenticatable
 
     protected $primaryKey = 'user_id';
 
-    protected $with = ['listenHistories'];
+    // protected $with = ['listenHistories'];
 
     public function getAvatarAttribute() {
         return "https://www.gravatar.com/avatar/" . md5(strtolower(trim($this->email)));
@@ -71,7 +71,7 @@ class User extends Authenticatable
     }
 
     public function listenHistories() {
-        return $this->belongsToMany(Song::class, 'listen_histories', 'user_id', 'song_id')->withTimestamps();
+        return $this->belongsToMany(Song::class, 'listen_histories', 'user_id', 'song_id')->as('listen_histories')->withTimestamps();
     }
     public function skippedSongs() {
         return $this->belongsToMany(Song::class, 'users_skip_songs', 'user_id', 'song_id');
