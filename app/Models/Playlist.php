@@ -9,15 +9,17 @@ class Playlist extends Model
 {
     use HasFactory;
 
+    protected $table = 'playlists';
+
     protected $primaryKey = 'playlist_id';
 
-    protected $fillable = ['playlist_name'];
+    protected $fillable = ['playlist_name', 'user_id'];
 
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
     public function songs() {
-        return $this->belongsToMany(Song::class, 'playlists_songs', 'playlist_id', 'song_id');
+        return $this->belongsToMany(Song::class, 'playlists_songs', 'playlist_id', 'song_id')->withTimestamps();
     }
 }

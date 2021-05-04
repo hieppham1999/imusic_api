@@ -62,7 +62,7 @@ class User extends Authenticatable
         return $this->hasMany(Playlist::class);
     }
     public function songsLiked() {
-        return $this->belongsToMany(Song::class, 'users_like_songs', 'user_id', 'song_id');
+        return $this->belongsToMany(Song::class, 'users_like_songs', 'user_id', 'song_id')->withTimestamps();
     }
 
     public function listenCount()
@@ -74,7 +74,7 @@ class User extends Authenticatable
         return $this->belongsToMany(Song::class, 'listen_histories', 'user_id', 'song_id')->as('listen_histories')->withTimestamps();
     }
     public function skippedSongs() {
-        return $this->belongsToMany(Song::class, 'users_skip_songs', 'user_id', 'song_id');
+        return $this->belongsToMany(Song::class, 'users_skip_songs', 'user_id', 'song_id')->withTimestamps();
     }
     public function recommendPoints() {
         return $this->hasMany(RecommendPoint::class, 'user_id', 'user_id');

@@ -66,16 +66,16 @@ class Song extends Model
     }
 
     public function artists() {
-        return $this->belongsToMany(Artist::class, 'artists_songs', 'song_id', 'artist_id');
+        return $this->belongsToMany(Artist::class, 'artists_songs', 'song_id', 'artist_id')->withTimestamps();
     }
     public function album() {
         return $this->belongsTo(Album::class, 'album_id');
     }
     public function composers() {
-        return $this->belongsToMany(Composer::class, 'composers_songs', 'song_id', 'composer_id');
+        return $this->belongsToMany(Composer::class, 'composers_songs', 'song_id', 'composer_id')->withTimestamps();
     }
     public function playlists() {
-        return $this->belongsToMany(Playlist::class, 'playlists_songs', 'song_id', 'playlist_id');
+        return $this->belongsToMany(Playlist::class, 'playlists_songs', 'song_id', 'playlist_id')->withTimestamps();
     }
     public function genre() {
         return $this->belongsTo(Genre::class, 'genre_id');
@@ -84,7 +84,7 @@ class Song extends Model
         return $this->belongsTo(Language::class, 'language_id');
     }
     public function usersLiked() {
-        return $this->belongsToMany(User::class, 'users_like_songs', 'song_id', 'user_id');
+        return $this->belongsToMany(User::class, 'users_like_songs', 'song_id', 'user_id')->withTimestamps();
     }
     public function listenHistories() {
         return $this->belongsToMany(User::class, 'listen_histories', 'song_id', 'user_id')->withTimestamps();

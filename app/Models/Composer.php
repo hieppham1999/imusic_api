@@ -14,6 +14,6 @@ class Composer extends Model
     protected $fillable = ['composer_name'];
 
     public function songs() {
-        return $this->belongsToMany(Song::class, 'composers_songs', 'composer_id', 'song_id');
+        return $this->belongsToMany(Song::class, 'composers_songs', 'composer_id', 'song_id')->withTimestamps();
     }
 }
