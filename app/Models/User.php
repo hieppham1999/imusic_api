@@ -76,7 +76,7 @@ class User extends Authenticatable
     public function skippedSongs() {
         return $this->belongsToMany(Song::class, 'users_skip_songs', 'user_id', 'song_id');
     }
-    public function genres() {
-        return $this->belongsToMany(Genre::class, 'recommend_point', 'user_id', 'genre_id')->withPivot('language_id','point')->withTimestamps();
+    public function recommendPoints() {
+        return $this->hasMany(RecommendPoint::class, 'user_id', 'user_id');
     }
 }

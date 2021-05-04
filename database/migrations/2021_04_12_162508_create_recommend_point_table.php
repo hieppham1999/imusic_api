@@ -14,7 +14,7 @@ class CreateRecommendPointTable extends Migration
     public function up()
     {
         Schema::create('recommend_point', function (Blueprint $table) {
-            $table->id('id');
+            $table->id('recommend_id');
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('genre_id');
             $table->unsignedBigInteger('language_id');

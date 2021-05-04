@@ -31,9 +31,21 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::get('/auth/logout', [Api\AuthController::class, 'logout']);
 
-    Route::get('/songs/listen/{song_id}', [Api\SongController::class, 'songIsListened']);
+    Route::prefix('me')->group(function () {
 
-    Route::get('/me/listen-histories', [Api\UserController::class, 'getUserListenHistories']);
+        Route::put('/listen/', [Api\SongController::class, 'songIsListened']);
+
+        Route::put('/skip/', [Api\SongController::class, 'songIsSkipped']);
+
+        Route::get('/listen-histories', [Api\UserController::class, 'getUserListenHistories']);
+
+        Route::put('/plus-rcm-point', [Api\UserController::class, 'increaseRecommendPoint']);
+
+        Route::put('/sub-rcm-point', [Api\UserController::class, 'decreaseRecommendPoint']);
+
+        Route::get('/recommend', [Api\SongController::class, 'getRecommendSongs']);
+    });
+    
 });
 
 
@@ -48,4 +60,7 @@ Route::prefix('songs')->group(function () {
 
     Route::get('/language/{language_id}', [Api\SongController::class, 'getSongsByLanguage'])
     ->name('api.songs.by_language');
+
+    Route::get('/hot', [Api\SongController::class, 'getHotMusic'])
+    ->name('api.songs.hot');
 });

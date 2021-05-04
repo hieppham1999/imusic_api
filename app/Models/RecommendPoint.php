@@ -9,9 +9,14 @@ class RecommendPoint extends Model
 {
     use HasFactory;
 
+    protected $table = 'recommend_point';
+
+    protected $primaryKey = 'recommend_id';
+
     protected $fillable = ['user_id', 'genre_id', 'language_id', 'point'];
 
     public function users() {
-        return $this->belongsToMany(User::class, 'artists_songs', 'song_id', 'artist_id');
+        return $this->belongsTo(User::class, 'recommend_id', 'user_id');
     }
+
 }
