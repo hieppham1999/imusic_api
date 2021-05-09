@@ -57,7 +57,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 });
 
 
-
 Route::prefix('songs')->group(function () {
 
     Route::get('/recently', [Api\SongController::class, 'getRecentlyUploadedSongs'])
@@ -71,4 +70,7 @@ Route::prefix('songs')->group(function () {
 
     Route::get('/hot', [Api\SongController::class, 'getHotMusic'])
     ->name('api.songs.hot');
+
+    Route::get('/search', [Api\SongController::class, 'searchByTitle'])
+    ->name('api.songs.search');
 });

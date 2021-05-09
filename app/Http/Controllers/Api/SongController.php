@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Song;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -73,6 +74,7 @@ class SongController extends Controller
     }
 
     public function getHotMusic(Request $request) {
+        $result = collect();
         if ($request->has('t')) {
             switch ($request->input('t')) {
                 case 'd':
@@ -88,22 +90,38 @@ class SongController extends Controller
                     $days = 365;
                     break;
             }
-            $songs = DB::table('listen_histories')
+            $queries = DB::table('listen_histories')
                     ->select('song_id', DB::raw('count(*) as listen_count'))
                     ->whereDate('created_at', '>', Carbon::now()->subDays($days))
                     ->groupBy('song_id')
                     ->orderBy('listen_count', 'desc')
                     ->limit(10)
                     ->get();
-            return response()->json($songs);
+
+
+
         } else {
-            $songs = DB::table('listen_histories')
+            $queries = DB::table('listen_histories')
                     ->select('song_id', DB::raw('count(*) as listen_count'))
                     ->groupBy('song_id')
                     ->orderBy('listen_count', 'desc')
                     ->limit(10)
                     ->get();
         }
+        foreach ($queries as $query) {
+            $song = Song::where('song_id', '=', $query->song_id)->get();
+            $listen_count = $query->listen_count;
+
+            $song->map(function ($song) use ($listen_count) {
+                $song['listen_count'] = $listen_count;
+                return $song;
+            });
+            $result->push($song);
+            
+        }
+        
+        $result = $result->collapse();
+        return response()->json($result);
     }
 
     public function getRecommendSongs() {
@@ -155,5 +173,28 @@ class SongController extends Controller
                 ->get(['genre_id', 'language_id', 'point']);
 
         return $query->toArray();
+    }
+
+    public function searchByTitle(Request $request) {
+        if ($request->has('keyword')) {
+            $search = $request->input('keyword');
+            $query = Song::where('title', 'LIKE', "%{$search}%")
+                    ->get();
+            if ($query->isEmpty()) {
+                return [
+                    'message' => 'No results'
+                ];
+            } else {
+                return response()->json($query);
+            }
+        } else {
+            return [
+                'message' => 'There are some errors'
+            ];
+        }
+
+        
+        
+               
     }
 }

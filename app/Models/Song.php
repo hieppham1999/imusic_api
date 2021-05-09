@@ -65,6 +65,7 @@ class Song extends Model
         return $song ? $song->genre->genre_name : '';
     }
 
+
     public function artists() {
         return $this->belongsToMany(Artist::class, 'artists_songs', 'song_id', 'artist_id')->withTimestamps();
     }
