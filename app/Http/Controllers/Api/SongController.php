@@ -42,14 +42,27 @@ class SongController extends Controller
         return response()->json($songs->get());
     }
 
-    public function songIsListened(Request $request) {
-        $user = auth()->user();
+    public function listenByUser(Request $request) {
         $song = Song::find($request->input('serverId'));
+        $user = auth()->user();
         if ($song) {
-            $song->listenHistories()->attach($user);
+                $song->listenHistories()->attach($user);
         }
         return [
-            'message' => 'Song is listened!!'
+            'message' => 'Song is listened by an user!!'
+        ];
+    }
+
+    public function listenByGuest(Request $request) {
+        $song = Song::find($request->input('serverId'));
+        $query = DB::table('listen_histories')
+                            ->insert([
+                                'song_id' => $song->song_id,
+                                'created_at' => Carbon::now(),
+                                'updated_at' => Carbon::now(),
+                            ]);
+        return [
+            'message' => 'Song is listened by a guest!!'
         ];
     }
 

@@ -11,9 +11,10 @@ use App\Models\Composer;
 use App\Models\Genre;
 use App\Models\Language;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Log;
+
 use JamesHeinrich\GetID3\GetID3;
+use App\Exceptions\Handler;
+use Exception;
 
 class SongController extends Controller
 {
@@ -60,8 +61,7 @@ class SongController extends Controller
             $song_duration = $mp3file->getDuration()*1000;
 
             // Extract album cover from mp3 file
-            $image_name = basename($newname, '.mp3').'.jpg';
-            $this->storeImageFromMp3File($song_url, $image_name);
+            $image_name = $this->storeImageFromMp3File($song_url, $newname);
                     // TODO - what if cant extract
 
 
@@ -73,7 +73,7 @@ class SongController extends Controller
             'artist' => $data['artist_name'],
             'composer' => $data['composer'] ? $data['composer'] : "Unknown",
             'year' => $data['year'],
-            'art_uri' => 'storage/media/album_arts/'.$image_name,
+            'art_uri' => $image_name,
             'language_id' => $data['language'],
             'genre_id' => $data['genre']
             ]);
@@ -191,23 +191,36 @@ class SongController extends Controller
         $song_title = $song->title;
         $song_artist = $song->artist;
         $song_url = $song->song_url;
+        $songArtUrl = $song->art_uri;
         $song->artists()->detach();
         $song->forceDelete();
-        File::delete(public_path($song_url));
+        try {
+            File::delete(public_path($song_url));
+            File::delete(public_path($songArtUrl));
+        } catch (Exception $e) {
+            report($e);
+        }
+        
         return redirect()->route('songs.index')->with('success', "Song '$song_title - $song_artist' has been deleted successfully!!!");
     }
 
-    function storeImageFromMp3File($file, $newFilename) {
+    function storeImageFromMp3File($file, $fileName) {
         $getID3 = new GetID3;
+        $image_name = basename($fileName, '.mp3').'.jpg';
         $OldThisFileInfo = $getID3->analyze($file);
-        if(isset($OldThisFileInfo['comments']['picture'][0]))
-        {
+        if(isset($OldThisFileInfo['comments']['picture'][0])) {
+
             $image= $OldThisFileInfo['comments']['picture'][0]['data'];
 
-            if ($handle = fopen('storage/media/album_arts/'.$newFilename, 'a')) {
+            if ($handle = fopen('storage/media/album_arts/'.$image_name, 'a')) {
                 fwrite($handle, $image);
-            }
-        }
+                return 'storage/media/album_arts/'.$image_name;
+            } 
+            return null;
+            
+
         // TODO - return something when cant extract
+        }
+        return null;
     }
 }

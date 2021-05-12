@@ -33,9 +33,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
     Route::prefix('me')->group(function () {
 
-        Route::put('/listen/', [Api\SongController::class, 'songIsListened']);
+        Route::put('/listen', [Api\SongController::class, 'listenByUser']);
 
-        Route::put('/skip/', [Api\SongController::class, 'songIsSkipped']);
+        Route::put('/skip', [Api\SongController::class, 'songIsSkipped']);
 
         Route::get('/listen-histories', [Api\UserController::class, 'getUserListenHistories']);
 
@@ -56,6 +56,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     
 });
 
+Route::put('/guest/listen', [Api\SongController::class, 'listenByGuest']);
 
 Route::prefix('songs')->group(function () {
 
