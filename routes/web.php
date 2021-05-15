@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\SongController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AlbumController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -55,6 +56,15 @@ Route::prefix('users')->group(function () {
         ->middleware(['auth'])->name('users.create');
     Route::post('/', [UserController::class, 'store'])
         ->middleware(['auth'])->name('users.store');
+});
+
+Route::prefix('albums')->group(function () {
+    Route::get('/', [AlbumController::class, 'index'])
+        ->middleware(['auth'])->name('albums.index');
+    // Route::get('/create', [UserController::class, 'create'])
+    //     ->middleware(['auth'])->name('users.create');
+    // Route::post('/', [UserController::class, 'store'])
+    //     ->middleware(['auth'])->name('users.store');
 });
 
 Route::post('/upload', [SongController::class, 'store'])
