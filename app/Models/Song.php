@@ -38,6 +38,9 @@ class Song extends Model
     }
 
     public function getArtUriAttribute() {
+        if ($this->attributes['art_uri'] == null) {
+            return null;
+        }
         return  'http://192.168.0.150:8000/'.$this->attributes['art_uri'];
     }
 
