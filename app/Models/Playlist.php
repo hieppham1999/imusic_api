@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
+
 
 class Playlist extends Model
 {
@@ -13,7 +15,11 @@ class Playlist extends Model
 
     protected $primaryKey = 'playlist_id';
 
-    protected $fillable = ['playlist_name', 'user_id'];
+    protected $fillable = ['playlist_name', 'user_id', 'updated_at'];
+
+    protected $appends = ['tracks'];
+
+    protected $hidden = ['created_at', 'updated_at', 'user_id'];
 
     public function user()
     {
@@ -21,5 +27,12 @@ class Playlist extends Model
     }
     public function songs() {
         return $this->belongsToMany(Song::class, 'playlists_songs', 'playlist_id', 'song_id')->withTimestamps();
+    }
+
+    public function countTracks() {
+        return DB::table('playlists_songs')->where('playlist_id', $this->playlist_id)->count();
+    }
+    public function getTracksAttribute() {
+        return $this->countTracks();
     }
 }

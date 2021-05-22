@@ -15,7 +15,7 @@ class AlbumController extends Controller
      */
     public function index()
     {
-        $albums = Album::paginate(1)->withPath('/albums');
+        $albums = Album::paginate(10)->withPath('/albums');
         return view('album_index', [
             'albums' => $albums]);
     }

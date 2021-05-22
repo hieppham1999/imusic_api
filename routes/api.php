@@ -46,13 +46,22 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::get('/recommend', [Api\SongController::class, 'getRecommendSongs']);
     });
 
-    Route::post('/playlists/create', [Api\PlaylistController::class, 'store']);
+    Route::prefix('playlists')->group(function () {
 
-    Route::post('/playlists/add', [Api\PlaylistController::class, 'addSongToPlaylist']);
+        Route::get('/', [Api\PlaylistController::class, 'index']);
 
-    Route::get('/playlists/index', [Api\PlaylistController::class, 'index']);
+        Route::post('/create', [Api\PlaylistController::class, 'store']);
 
-    Route::get('/playlists/{playlistId}', [Api\PlaylistController::class, 'getSongsfromPlaylist']);
+        Route::get('/{playlistId}', [Api\PlaylistController::class, 'getSongsfromPlaylist']);
+
+        Route::post('/{playlistId}/add', [Api\PlaylistController::class, 'addSongToPlaylist']);
+
+        Route::post('/{playlistId}/delete', [Api\PlaylistController::class, 'destroy']);
+
+        Route::post('/{playlistId}/remove', [Api\PlaylistController::class, 'removeSongFromPlaylist']);
+    
+    });
+
     
 });
 

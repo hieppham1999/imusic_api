@@ -68,6 +68,9 @@
                             @endforeach
                         </tbody>
                       </table>
+                    <div>
+                        {{ $songs->links() }}
+                    </div>
                 </div>
             </div>
         </div>

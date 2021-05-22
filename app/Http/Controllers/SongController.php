@@ -21,7 +21,7 @@ class SongController extends Controller
     //
 
     function index(){
-        $songs = Song::all();
+        $songs = Song::paginate(10)->withPath('/songs');
         return view('song_index', [
             'songs' => $songs
             ]);

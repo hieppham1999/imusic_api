@@ -7,6 +7,7 @@ use App\Models\Playlist;
 use App\Models\Song;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class PlaylistController extends Controller{
@@ -23,11 +24,10 @@ class PlaylistController extends Controller{
         ];  
     }
 
-    public function addSongToPlaylist(Request $request) {
+    public function addSongToPlaylist($playlistId, Request $request) {
         $user = auth()->user();
         $userId = $user->user_id;
         $songId = $request->input('serverId');
-        $playlistId = $request->input('playlistId');
 
         $song = Song::find($songId);
         $playlist = Playlist::find($playlistId);
@@ -35,6 +35,7 @@ class PlaylistController extends Controller{
         if($playlist->user_id === $userId) {
 
             $playlist->songs()->sync([$song->song_id], false);
+            $playlist->touch();
             return [
                 'message' => 'Song "'.$song->title.'" was added successfully!!'
             ];  
@@ -45,11 +46,32 @@ class PlaylistController extends Controller{
         }
     }
 
+    public function removeSongFromPlaylist($playlistId, Request $request) {
+        $user = auth()->user();
+        $userId = $user->user_id;
+        $songId = $request->input('serverId');
+
+        $playlist = Playlist::find($playlistId);
+
+        $doesPlaylistContainSong = DB::table('playlists_songs')->where('playlist_id', $playlistId)
+                                    ->where('song_id', $songId)->exists();
+
+        if($playlist->user_id === $userId) {
+            if ($doesPlaylistContainSong) {
+                $playlist->songs()->detach($songId);
+                $playlist->touch();
+                return ['message' => 'Song was remove successfully!!'];  
+            }
+            return ['message' => 'There is no song in playlist!!'];  
+        }
+        return ['message' => 'You dont own that playlist!!'];  
+    }
+
     public function index() {
         $user = auth()->user();
         $userId = $user->user_id;
 
-        $playlists = Playlist::where('user_id', '=', $userId)->get()->makeHidden(['created_at', 'updated_at']);
+        $playlists = Playlist::where('user_id', '=', $userId)->orderByDesc('updated_at')->get();
 
         return response()->json($playlists);
     }
@@ -66,4 +88,24 @@ class PlaylistController extends Controller{
 
         return response()->json($songs->makeHidden(['pivot']));
     }
+
+    public function destroy($playlistId) {
+        $user = auth()->user();
+        $userId = $user->user_id;
+
+        $playlist = Playlist::find($playlistId);
+
+        if($playlist->user_id === $userId) {
+            $playlist->songs()->detach();
+            $playlist->forceDelete();
+            return [
+                'message' => 'Playlist was deleted successfully!!'
+            ];  
+        }
+        return [
+            'message' => 'There were some errors!!'
+        ];  
+    }
+
+    
 }
