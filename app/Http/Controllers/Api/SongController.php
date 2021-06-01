@@ -46,11 +46,16 @@ class SongController extends Controller
         $song = Song::find($request->input('serverId'));
         $user = auth()->user();
         if ($song) {
-                $song->listenHistories()->attach($user);
+                $user->listenHistories()->attach($song->song_id);
+                return [
+                    'message' => 'Song is listened by an user!!'
+                ];
+        } else {
+            return [
+                'message' => 'Something\'s wrong!!'
+            ];
         }
-        return [
-            'message' => 'Song is listened by an user!!'
-        ];
+
     }
 
     public function listenByGuest(Request $request) {
@@ -144,35 +149,50 @@ class SongController extends Controller
         $arrays = $this->getTopGenreAndLanguage($userId);
 
 
+        if (!$arrays) {
+            $fakeRequest = new Request();
+            $fakeRequest->request->add(['t' => 'y']); 
+            return $this->getHotMusic($fakeRequest);
+        }
+
         // Tier 1
         $songTier1 = Song::where('genre_id', '=', $arrays[0]->genre_id)
                         ->where('language_id', '=', $arrays[0]->language_id)
                         ->get();
         $songTier1 = $songTier1->sortByDesc('total_listen')->slice(0, 4);
+        
         $collection->push($songTier1);
 
-    
+
+
         // Tier 2
-        $songTier2 = Song::where('genre_id', '=', $arrays[1]->genre_id)
-                        ->where('language_id', '=', $arrays[1]->language_id)
-                        ->get();
-        $songTier2 = $songTier2->sortByDesc('total_listen')->slice(0, 3);
-        $collection->push($songTier2);
+        if (array_key_exists('1', $arrays)) {
+            $songTier2 = Song::where('genre_id', '=', $arrays[1]->genre_id)
+            ->where('language_id', '=', $arrays[1]->language_id)
+            ->get();
+            $songTier2 = $songTier2->sortByDesc('total_listen')->slice(0, 3);
+            $collection->push($songTier2);
+        }
+
 
 
         // Tier 3
+        if (array_key_exists('2', $arrays)) {
         $songTier3 = Song::where('genre_id', '=', $arrays[2]->genre_id)
                         ->where('language_id', '=', $arrays[2]->language_id)
                         ->get();
         $songTier3 = $songTier3->sortByDesc('total_listen')->slice(0, 2);
         $collection->push($songTier3);
+        }
 
         // Tier 4
+        if (array_key_exists('3', $arrays)) {
         $songTier4 = Song::where('genre_id', '=', $arrays[3]->genre_id)
                         ->where('language_id', '=', $arrays[3]->language_id)
                         ->get();
         $songTier4 = $songTier4->sortByDesc('total_listen')->slice(0, 2);
         $collection->push($songTier4);
+        }
 
         $collection = $collection->collapse();
         return response()->json($collection);

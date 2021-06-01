@@ -6,9 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Playlist;
 use App\Models\Song;
 use Illuminate\Http\Request;
-use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class PlaylistController extends Controller{
     public function store(Request $request) {
@@ -22,6 +21,15 @@ class PlaylistController extends Controller{
         return [
             'message' => 'Playlist created successfully!!'
         ];  
+    }
+
+    public function getPlaylistInfo(Request $request, $playlistId) {
+        $user = auth()->user();
+        $userId = $user->user_id;
+        $playlist = Playlist::find($playlistId);
+        if($playlist->user_id === $userId) {
+            return response()->json($playlist);
+        }
     }
 
     public function addSongToPlaylist($playlistId, Request $request) {
@@ -50,8 +58,13 @@ class PlaylistController extends Controller{
         $user = auth()->user();
         $userId = $user->user_id;
         $songId = $request->input('serverId');
+        $song = Song::find($songId);
+
+        if(!$song) return ['message' => 'Song does not exist!!'];
 
         $playlist = Playlist::find($playlistId);
+
+        if(!$playlist) return ['message' => 'Playlist does not exist!!'];
 
         $doesPlaylistContainSong = DB::table('playlists_songs')->where('playlist_id', $playlistId)
                                     ->where('song_id', $songId)->exists();
@@ -83,10 +96,35 @@ class PlaylistController extends Controller{
         $playlist = Playlist::find($playlistId);
 
         if($playlist->user_id === $userId) {
-            $songs = $playlist->songs;
+            $songs = $playlist->songs->reverse()->values();
+            // $songs = $songs->collapse();
         }
 
         return response()->json($songs->makeHidden(['pivot']));
+    }
+
+    public function update($playlistId, Request $request) {
+        $user = auth()->user();
+        $userId = $user->user_id;
+        $validate = $request->validate([
+            'playlistName' => 'required | max:255',
+        ]);
+        $playlistName = $request->input('playlistName');
+
+        $playlist = Playlist::findOrFail($playlistId);
+        if($playlist->user_id === $userId) {
+
+            $playlist->playlist_name = $playlistName;
+
+            $playlist->save();
+            return [
+                'message' => 'Playlist was updated successfully!!'
+            ];  
+        } else {
+            return [
+                'message' => 'Updated failed!!'
+            ];  
+        }
     }
 
     public function destroy($playlistId) {

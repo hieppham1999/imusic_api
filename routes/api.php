@@ -54,11 +54,15 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 
         Route::get('/{playlistId}', [Api\PlaylistController::class, 'getSongsfromPlaylist']);
 
+        Route::get('/{playlistId}/info', [Api\PlaylistController::class, 'getPlaylistInfo']);
+
+        Route::put('/{playlistId}/edit', [Api\PlaylistController::class, 'update']);
+
         Route::post('/{playlistId}/add', [Api\PlaylistController::class, 'addSongToPlaylist']);
 
-        Route::post('/{playlistId}/delete', [Api\PlaylistController::class, 'destroy']);
+        Route::delete('/{playlistId}/delete', [Api\PlaylistController::class, 'destroy']);
 
-        Route::post('/{playlistId}/remove', [Api\PlaylistController::class, 'removeSongFromPlaylist']);
+        Route::delete('/{playlistId}/remove', [Api\PlaylistController::class, 'removeSongFromPlaylist']);
     
     });
 

@@ -17,7 +17,7 @@ class Playlist extends Model
 
     protected $fillable = ['playlist_name', 'user_id', 'updated_at'];
 
-    protected $appends = ['tracks'];
+    protected $appends = ['tracks', 'last_updated'];
 
     protected $hidden = ['created_at', 'updated_at', 'user_id'];
 
@@ -34,5 +34,9 @@ class Playlist extends Model
     }
     public function getTracksAttribute() {
         return $this->countTracks();
+    }
+
+    public function getLastUpdatedAttribute() {
+        return $this->updated_at->format('d/m/Y');
     }
 }

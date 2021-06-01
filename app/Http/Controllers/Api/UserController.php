@@ -12,12 +12,21 @@ class UserController extends Controller {
 
 
     public function getUserListenHistories() {
+        $result = collect();
         $user = auth()->user();
         $listenHistories = DB::table('listen_histories')
                             ->select('song_id', 'created_at')
                             ->where('user_id', '=', $user->user_id)
-                            ->orderByDesc('created_at')->get();
-        return response()->json($listenHistories);
+                            ->orderByDesc('created_at')->get()->unique('song_id');
+        
+        foreach ($listenHistories as $listenHistory) {
+            $song = Song::where('song_id', '=', $listenHistory->song_id)->get();
+            $result->push($song);
+            
+        }
+        
+        $result = $result->collapse();
+        return response()->json($result);
     }
 
 
